@@ -119,7 +119,7 @@ exports.vuscreen_analyticsvu_panl = function (req, res) {
           callback(null, menu);
         }
       })
-    },
+    },  
   ],
     function (err, results) {
 
@@ -609,6 +609,337 @@ exports.vuscreen_menu = function (req, res) {
   })
 }
 
+///////////////////////////////////////////////////Projected micro api//////////////////////////
+
+exports.vuscreen_watchpro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query = "SELECT b.content_id, b.title, Round((count(distinct mac)/" + div + ")*" + mul + ") as users, Round((count(1)/" + div + ")*" + mul + ") as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_content_package AS b ON a.view_id = b.content_id where a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title";
+           db.get().query(query, function (err, Watch) {
+        if (err) {
+          callback(err, null);
+        }
+        else {
+          
+          return res.status(200).json(Watch);
+        }
+      })
+    }
+  })
+    }
+   
+exports.vuscreen_pdfpro = function (req, res) {
+      var startDate = 'null', endDate = 'null';
+      if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+      if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+      var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+      db.get().query(querys, function (err, device) {
+        // console.log(err);
+        if (err) {
+          return handleError(res, err);
+        }
+        else {
+    
+          var div = 0;
+          for (let dat in device) {
+            div += parseInt(device[dat].device);
+          }
+          // console.log(div);
+          // var div = parseInt(device[0].device);
+          var mul = 163 * 31;
+    
+
+          var query1 = "SELECT b.content_id, b.title, count(distinct mac) as users, count(1) as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_read_content AS b ON a.view_id = b.content_id where a.type='pdf' and a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title"
+          db.get().query(query1, function (err, Watch) {
+        if (err) {
+          callback(err, null);
+        }
+        else {
+          
+          return res.status(200).json(Watch);
+        }
+      })
+    }
+  })
+}
+
+exports.vuscreen_audiopro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query2 = "SELECT b.content_id, b.title, count(distinct mac) as users, count(1) as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_read_content AS b ON a.view_id = b.content_id where a.type='audio' and a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title"
+      db.get().query(query2, function (err, Watch) {
+        if (err) {
+          callback(err, null);
+        }
+        else {
+          
+          return res.status(200).json(Watch);
+    }
+  })
+}
+})
+}
+
+exports.vuscreen_travelpro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query3 = "SELECT b.content_id, b.title, count(distinct mac) as users, count(1) as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_travel_content AS b ON a.view_id = b.content_id where a.type='TRAVEL' and a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title"
+     db.get().query(query3, function (err, Watch) {
+    if (err) {
+      callback(err, null);
+    }
+    else {
+      
+      return res.status(200).json(Watch);
+    }
+  })
+}
+})
+}
+
+exports.vuscreen_storepro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query4 = "SELECT b.content_id, b.title, count(distinct mac) as users, count(1) as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_store_content AS b ON a.view_id = b.content_id where a.menu='STORE' and a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title"
+  db.get().query(query4, function (err, Watch) {
+    if (err) {
+      callback(err, null);
+    }
+    else {
+      
+      return res.status(200).json(Watch);
+    }
+  })
+}
+})
+}
+
+exports.vuscreen_fnbpro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query5 = "SELECT b.content_id, b.title, count(distinct mac) as users, count(1) as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_fnb_content AS b ON a.view_id = b.content_id where a.menu='f&b' and a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title"
+      db.get().query(query5, function (err, Watch) {
+        if (err) {
+          callback(err, null);
+        }
+        else {
+          
+          return res.status(200).json(Watch);
+    }
+  })
+}
+})
+}
+
+exports.vuscreen_adpro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query6 = "SELECT b.id, b.title, count(distinct mac) as users, count(1) as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_advertise_content AS b ON a.view_id = b.id where a.type  like '%ad%'  and a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' or a.menu like '%ad%' group by b.id, b.title"
+  db.get().query(query6, function (err, Watch) {
+    if (err) {
+      callback(err, null);
+    }
+    else {
+      
+      return res.status(200).json(Watch);
+    }
+  })
+}
+})
+}
+
+exports.vuscreen_menupro = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+      var query7 = "SELECT count(1) as clicks, count(distinct mac) as users, menu FROM spicescreen.vuscreen_tracker where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by menu"
+     db.get().query(query7, function (err, Watch) {
+    if (err) {
+      callback(err, null);
+    }
+    else {
+      
+      return res.status(200).json(Watch);
+    }
+  })
+}
+})
+}
+
+///////////////////////////////////////destination projected api//////////////////////////////////////
+exports.vuscreen_watchdes = function (req, res) {
+  console.log("vishall");
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    console.log(querys);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // var dt = endDate.split('-');
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+
+
+      var query = "SELECT b.content_id, b.title, Round((count(distinct mac)/" + div + ")*" + mul + ") as users, Round((count(1)/" + div + ")*" + mul + ") as clicks FROM spicescreen.vuscreen_tracker AS a JOIN spicescreen.vuscreen_content_package AS b ON a.view_id = b.content_id where a.destination='" + req.query.destination + "' and  a.sync_date>='" + startDate + "' and a.sync_date<='" + endDate + "' group by b.content_id, b.title";
+       db.get().query(query, function (err, Watch) {
+            if (err) {
+              callback(err, null);
+            }
+            else {
+              callback(null, Watch);
+    }
+  })
+}
+})
+}
+
+
+
 ////////  actual analytics search apis  //////////////////////////////////////////
 
 ////////  prorated analytics search apis  //////////////////////////////////////////
@@ -836,11 +1167,257 @@ exports.get_ss = function (req, res) {
   })
 };
 
+///////////////////Summary Api's//////////////////////////////
+
+exports.vuscreen_actual_summary = function (req, res) {
+  // var vuscreen_actual_summary = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
 
 
+  async.parallel([
+    function (callback) {
+      var query = "SELECT count(distinct device_id) as Totaldevicesync FROM spicescreen.vuscreen_tracker where sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+      db.get().query(query, function (err, Watch) {
+        if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, Watch);
+        }
+      })
+    },
+    function (callback) {
+      var query1 = "SELECT count(distinct mac) as Totalhomepagelogin FROM spicescreen.vuscreen_tracker where menu='SS' and sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+  db.get().query(query1, function (err, pdf) {
+         if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, pdf);
+        }
+      })
+    },function (callback) {
+      var query2 = "SELECT count(1) as Totalclick FROM spicescreen.vuscreen_tracker where sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+      db.get().query(query2, function (err, audio) {
+             if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, audio);
+        }
+      })
+    },
+    function (callback) {
+      var query3 = "SELECT count(1) as TotalAdclick FROM spicescreen.vuscreen_tracker where menu='AD' and sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+      db.get().query(query3, function (err, AD) {
+             if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, AD);
+        }
+      })
+    },
+  ],
+  function (err, results) {
+
+    console.log(results.length);
+    var finalData = {
+                                        WATCH: results[0],
+                                        PDF: results[1],
+                                        AUDIO: results[2],
+                                        AD: results[3]
+                                      }
+                                      console.log(finalData);
+
+    return res.status(200).json(finalData);
+   
+  });
+
+}
+// vuscreen_actual_summary();
+
+exports.vuscreen_projected_summary = function (req, res) {
+  // var vuscreen_projected_summary = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+
+var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+
+  async.parallel([
+    function (callback) {
+      var query = "SELECT count(distinct device_id) as Totaldevicesync FROM spicescreen.vuscreen_tracker where sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+      db.get().query(query, function (err, Watch) {
+        if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, Watch);
+        }
+      })
+    },
+    function (callback) {
+      var query1 = "SELECT Round((count(distinct mac)/" + div + ")*" + mul + ") as Totalhomepagelogin FROM spicescreen.vuscreen_tracker where menu='SS' and sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+  db.get().query(query1, function (err, pdf) {
+         if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, pdf);
+        }
+      })
+    },function (callback) {
+      var query2 = "SELECT Round((count(1)/" + div + ")*" + mul + ") as Totalclick FROM spicescreen.vuscreen_tracker where sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+      db.get().query(query2, function (err, audio) {
+             if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, audio);
+        }
+      })
+    },
+    function (callback) {
+      var query3 = "SELECT  Round((count(1)/" + div + ")*" + mul + ") as totalAdclick FROM spicescreen.vuscreen_tracker where menu='AD' and sync_date>='" + startDate + "' and sync_date<='" + endDate + "'"
+      db.get().query(query3, function (err, AD) {
+             if (err) {
+          callback(err, null);
+        }
+        else {
+          callback(null, AD);
+        }
+      })
+    },
+  ],
+  function (err, results) {
+
+    console.log(results.length);
+    var finalData = {
+                                        WATCH: results[0],
+                                        PDF: results[1],
+                                        AUDIO: results[2],
+                                        AD: results[3]
+                                        
+                                      }
+console.log(finalData);
+    return res.status(200).json(finalData);
+   
+  });
+
+  
+    }
+
+  })
+}
+// vuscreen_projected_summary();
 
 
+exports.wifi_login = function (req, res) {
+  // var wifi_login_sync = function (req, res) {
+  var startDate = 'null', endDate = 'null';
+  if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
+  if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
+  //   var currentDate = moment(new Date()).format('YYYY-MM-DD');
+  //   var d = new Date();
+  // // var Yesterday='2020-10-30';
+  // // var Yesterdays='2020-10-01';
 
+  //   d.setDate(d.getDate() - 1);
+  //   var Yesterday = moment(d).format('YYYY-MM-DD').toString()
+  var querys = "SELECT count(distinct device_id) as device,sync_date FROM spicescreen.vuscreen_tracker  where sync_date>='" + startDate + "' and sync_date<='" + endDate + "' group by sync_date";
+  db.get().query(querys, function (err, device) {
+    // console.log(err);
+    if (err) {
+      return handleError(res, err);
+    }
+    else {
+
+      var div = 0;
+      for (let dat in device) {
+        div += parseInt(device[dat].device);
+      }
+  
+      // console.log(div);
+      // var div = parseInt(device[0].device);
+      var mul = 163 * 31;
+  var query = "SELECT distinct b.vehicle_no, a.event, a.view_datetime, a.journey_id,unique_mac_address FROM spicescreen.vuscreen_events a JOIN vuscreen_registration b ON a.device_id = b.device_id WHERE a.sync_date >= '" + startDate + "' and a.sync_date <= '" + endDate + "' AND a.event != 'download' AND a.event != 'charging' ORDER BY a.id DESC";
+
+  db.get().query(query, function (err, doc) {
+    if (err) {
+      console.log(err);
+      return handleError(res, err);
+    }
+    else {
+
+
+      var data = ""
+      let wifiMap = new Map();
+      let a = []
+      var count = 0;
+      //  console.log(doc.length);
+      for (let i = 0; i < doc.length; i++) {
+        data += doc[i].unique_mac_address + ",";
+        //  console.log(doc[i].unique_mac_address)
+
+        if (doc.length == i + 1) {
+
+
+          var data1 = data.split(',');
+          // console.log(data1.length);
+
+          for (let j = 0; j < data1.length; j++) {
+            const element = data1[j];
+
+            wifiMap.set(element, element)
+
+            if (data1.length == j + 1) {
+              // console.log(j);
+              // console.log(wifiMap.size)
+              // console.log( wifiMap);
+              count = wifiMap.size
+              function logMapElements(value, key, map) {
+
+                a.push({ "macaddress": value })
+                // console.log(`m[${key}] = ${value}`);
+              }
+              wifiMap.forEach(logMapElements);
+            }
+
+          }
+          // console.log(wifiMap);
+          // console.log(wifiMap.size)
+          count = wifiMap.size;
+          count= Math.round((count/div)*mul);
+          console.log(count);
+        }
+      }
+
+
+      return res.status(200).json(count);
+    }
+  })
+}
+})
+};
+
+// wifi_login_sync();
 
 
 

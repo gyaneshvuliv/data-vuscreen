@@ -3374,7 +3374,7 @@ var vuscreen_SmsReport = function (req, cb) {
     }
   });
 }
-vuscreen_SmsReport();
+// vuscreen_SmsReport();
 
 
 
