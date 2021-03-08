@@ -135,6 +135,9 @@ router.get('/analytics/act/store', controller.vuscreen_store);
 router.get('/analytics/act/fnb', controller.vuscreen_fnb);
 router.get('/analytics/act/ad', controller.vuscreen_ad);
 router.get('/analytics/act/menu', controller.vuscreen_menu);
+router.get('/analytics/act/Summary', controller.vuscreen_actual_summary);
+router.get('/analytics/act/Prosummary', controller.vuscreen_projected_summary);
+router.get('/analytics/act/Prowifi', controller.wifi_loginprojected);
 
 
 

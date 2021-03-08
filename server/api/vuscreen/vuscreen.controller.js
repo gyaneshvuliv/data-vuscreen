@@ -1329,8 +1329,8 @@ console.log(finalData);
 // vuscreen_projected_summary();
 
 
-exports.wifi_login = function (req, res) {
-  // var wifi_login_sync = function (req, res) {
+exports.wifi_loginprojected = function (req, res) {
+  // var wifi_loginprojected = function (req, res) {
   var startDate = 'null', endDate = 'null';
   if (req.query.startDate) { startDate = moment(req.query.startDate).format('YYYY-MM-DD'); }
   if (req.query.endDate) { endDate = moment(req.query.endDate).format('YYYY-MM-DD'); }
@@ -1416,6 +1416,8 @@ exports.wifi_login = function (req, res) {
 }
 })
 };
+// wifi_loginprojected();
+
 
 // wifi_login_sync();
 
